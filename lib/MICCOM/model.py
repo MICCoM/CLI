@@ -47,6 +47,12 @@ class Experiment() :
                 node = {'name': fname,
                  'parents': [],
                  'children': []}
+                 
+                
+                step.code = "qbox"
+                step.type = None
+                step.script = fobject
+ 
                 for child in root:
                     if child.tag == 'cmd':
                         m = regexpFlags.match(child.text)
@@ -56,16 +62,14 @@ class Experiment() :
                                 s = regexpSpecies.match(child.text)
                                 
                                 speciesFile = File(filename=f.group())
+                                step.input.append(speciesFile)
                                 
                                 if s.group(1) in self.samples :
                                     self.samples[s.group(1)]+=1
                                 else :
-                                    self.samples[s.group(1)] = 1
+                                    self.samples[s.group(1)]= 1
                                     
-                                step.input.append(speciesFile)
-                                step.code = "qbox"
-                                step.type = None
-                                step.script = fobject
+                                
                                 
                                 print 'File',
                                 print f.group()
@@ -79,6 +83,7 @@ class Experiment() :
                                 node['children'].append(f.group())
                                 
                                 saveFile = File(filename=f.group())
+                                step.output.append(saveFile)
                                 print 'Out:',
                                 print f.group()
 
